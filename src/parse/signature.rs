@@ -177,8 +177,7 @@ fn java_type_signature(input: &mut Peekable<Chars>) -> ParseResult<SignatureType
 }
 
 fn base_type(input: &mut Peekable<Chars>) -> ParseResult<BaseType> {
-    let Some(char) = input.peek()
-    else {
+    let Some(char) = input.peek() else {
         return Err(ParseError::OutOfBound("base type"));
     };
 
