@@ -1,4 +1,4 @@
-name: Pull Request CI
+name: Continues Integration
 
 on:
   push:
@@ -23,9 +23,19 @@ jobs:
         run: cargo fmt --check --all
       - name: Check build (Strict)
         run: cargo build --workspace --verbose --release
+      - name: Setup cargo-tarpaulin
+        run: |
+          curl -s https://api.github.com/repos/xd009642/tarpaulin/releases/latest | \
+            grep "browser_download_url.*x86_64-unknown-linux-musl.tar.gz" | cut -d : -f 2,3 | tr -d \" | wget -qi -
+          tar -xzf cargo-tarpaulin-*.tar.gz
+          mv cargo-tarpaulin ~/.cargo/bin/
       - name: Run tests
-        run: cargo test --workspace --verbose
+        run: cargo tarpaulin --out Xml --verbose
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          file: cobertura.xml
+          flags: unittests
+          name: code-coverage-report
+          fail_ci_if_error: true
