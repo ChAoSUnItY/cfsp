@@ -9,6 +9,7 @@ use crate::node::attribute::{
     SourceFile,
 };
 use crate::node::constant::ConstantPool;
+use crate::node::constant::Utf8;
 use crate::parse::attribute::annotation::{
     annotation_default, runtime_invisible_annotations, runtime_invisible_parameter_annotations,
     runtime_invisible_type_annotations, runtime_visible_annotations,
@@ -50,10 +51,10 @@ pub(super) fn attribute_info<'input: 'constant_pool, 'constant_pool, R: Read>(
 
     input.read_exact(&mut info)?;
 
-    let attribute = if option.skip_attribute {
+    let attribute = if !option.skip_attribute {
         if let Some(Ok(attribute_name)) = constant_pool
             .get_utf8(attribute_name_index)
-            .map(|utf8| utf8.string())
+            .map(Utf8::string)
         {
             let mut info = Cursor::new(&mut info[..]);
             let attribute = attribute(

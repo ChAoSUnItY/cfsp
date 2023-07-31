@@ -25,6 +25,17 @@ fn test_main_skip_attribute() {
 }
 
 #[test]
+fn test_main_skip_instruction() {
+    let mut cursor = Cursor::new(include_bytes!(
+        "../compiled_source/out/production/compiled_source/Main.class"
+    ));
+
+    assert_yaml_snapshot!(
+        to_class(&mut cursor, ParsingOption::default().skip_instruction()).unwrap()
+    );
+}
+
+#[test]
 fn test_enum() {
     let mut cursor = Cursor::new(include_bytes!(
         "../compiled_source/out/production/compiled_source/Enum.class"

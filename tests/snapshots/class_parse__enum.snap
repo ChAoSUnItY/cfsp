@@ -1,6 +1,6 @@
 ---
-source: classfile_parser/tests/class_parse.rs
-expression: "to_class(&mut cursor, ParsingOption::default().parse_attribute())?"
+source: cfsp/tests/class_parse.rs
+expression: "to_class(&mut cursor, ParsingOption::default()).unwrap()"
 ---
 java_version: V17
 constant_pool_count: 54
