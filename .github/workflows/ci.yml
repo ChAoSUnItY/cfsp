@@ -23,19 +23,25 @@ jobs:
         run: cargo fmt --check --all
       - name: Check build (Strict)
         run: cargo build --workspace --verbose --release
-      - name: Setup cargo-tarpaulin
-        run: |
-          curl -s https://api.github.com/repos/xd009642/tarpaulin/releases/latest | \
-            grep "browser_download_url.*x86_64-unknown-linux-musl.tar.gz" | cut -d : -f 2,3 | tr -d \" | wget -qi -
-          tar -xzf cargo-tarpaulin-*.tar.gz
-          mv cargo-tarpaulin ~/.cargo/bin/
-      - name: Run tests
-        run: cargo tarpaulin --out Xml --verbose
+      - uses: actions-rs/cargo@v1
+        with:
+          command: clean
+      - name: Run test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --all-features --no-fail-fast  # Customize args for your own needs
+        env:
+          CARGO_INCREMENTAL: '0'
+          RUSTFLAGS: '-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Cpanic=abort -Zpanic_abort_tests'
+          RUSTDOCFLAGS: '-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Cpanic=abort -Zpanic_abort_tests'
+      - id: Generate coverage
+        uses: actions-rs/grcov@v0.1
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-          file: cobertura.xml
+          file: tests.lcov
           flags: unittests
           name: code-coverage-report
           fail_ci_if_error: true
