@@ -31,9 +31,10 @@ jobs:
         run: cargo build --workspace --verbose --release
       - name: Compile tests assets
         run: |
-          cd compiled_source && rm out/production/compiled_source/*
+          cd compiled_source
+          rm out/production/compiled_source/*
           for file in src do
-            javac -o out/production/compiled_source/ file
+            javac -d out/production/compiled_source/ file
           done
       - name: Setup cargo-tarpaulin
         run: |
