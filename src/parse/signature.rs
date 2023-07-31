@@ -306,7 +306,7 @@ fn type_arguments(input: &mut Peekable<Chars>) -> ParseResult<Vec<TypeArgument>>
 fn type_argument(input: &mut Peekable<Chars>) -> ParseResult<TypeArgument> {
     match input.peek() {
         Some(char) if *char == '+' || *char == '-' => {
-            let wildcard_indicator = WildcardIndicator::try_from(char).unwrap();
+            let wildcard_indicator = WildcardIndicator::try_from(input.next().unwrap()).unwrap();
             let bounded_type = reference_type(input)?;
 
             Ok(TypeArgument::Bounded {
@@ -314,7 +314,11 @@ fn type_argument(input: &mut Peekable<Chars>) -> ParseResult<TypeArgument> {
                 bounded_type,
             })
         }
-        Some(char) if *char == '*' => Ok(TypeArgument::Wildcard),
+        Some(char) if *char == '*' => {
+            assert_char(input.next(), '*')?;
+
+            Ok(TypeArgument::Wildcard)
+        }
         Some(char) => Err(ParseError::MismatchedCharacter(*char, vec!['+', '-', '*'])),
         None => Err(ParseError::OutOfBound("type_argument")),
     }
