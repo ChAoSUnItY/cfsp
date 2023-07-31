@@ -1,6 +1,7 @@
 # ClassFile Structural Parser (CFSP)
 
 ![crates.io](https://img.shields.io/crates/v/cfsp.svg)
+[![codecov](https://codecov.io/gh/ChAoSUnItY/cfsp/branch/main/graph/badge.svg?token=606BV1R4LK)](https://codecov.io/gh/ChAoSUnItY/cfsp)
 
 A general usage parser used to parse class file into structural nodes.
 
