@@ -21,6 +21,9 @@ byteorder = "1.4.3"
 insta = { version = "1.28.0", features = ["yaml"] }
 criterion = { version = "0.5.1", features = ["html_reports"] }
 
+[lib]
+bench = false
+
 [[bench]]
 name = "parse"
 harness = false

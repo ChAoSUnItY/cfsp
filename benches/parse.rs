@@ -8,7 +8,7 @@ fn parsing_classes(c: &mut Criterion) {
     let mut g = c.benchmark_group("parse class");
 
     let compiled_source_folder =
-        fs::read_dir("../compiled_source/out/production/compiled_source").unwrap();
+        fs::read_dir("compiled_source/out/production/compiled_source").unwrap();
 
     for entry in compiled_source_folder {
         let entry = entry.as_ref().unwrap().path();
@@ -23,7 +23,7 @@ fn parsing_classes(c: &mut Criterion) {
                 b.iter_batched(
                     || Cursor::new(bytes),
                     |mut cursor| {
-                        to_class(&mut cursor, ParsingOption::default().parse_attribute())
+                        to_class(&mut cursor, ParsingOption::default())
                             .expect("Parsing fails on benchmarking");
                     },
                     BatchSize::SmallInput,
@@ -38,7 +38,7 @@ fn parsing_classes(c: &mut Criterion) {
                 b.iter_batched(
                     || Cursor::new(bytes),
                     |mut cursor| {
-                        to_class(&mut cursor, ParsingOption::default())
+                        to_class(&mut cursor, ParsingOption::default().skip_attribute())
                             .expect("Parsing fails on benchmarking");
                     },
                     BatchSize::SmallInput,

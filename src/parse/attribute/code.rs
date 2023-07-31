@@ -40,7 +40,11 @@ pub(super) fn code<'input: 'constant_pool, 'constant_pool, R: Read>(
         attributes.push(attribute_info(input, constant_pool, option)?);
     }
 
-    let instructions = instructions(Cursor::new(&mut code.clone()), code_length)?;
+    let instructions = if option.skip_instruction {
+        Vec::new()
+    } else {
+        instructions(Cursor::new(&mut code.clone()), code_length)?
+    };
 
     Ok(Some(Attribute::Code(Code {
         max_stack,

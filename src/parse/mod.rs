@@ -5,13 +5,13 @@ pub use signature::{class_signature, field_signature, method_signature};
 
 use crate::node::class::Class;
 
-pub(crate) mod attribute;
-pub(crate) mod class;
-pub(crate) mod constant;
-pub(crate) mod error;
-pub(crate) mod field;
-pub(crate) mod method;
-pub(crate) mod signature;
+mod attribute;
+mod class;
+mod constant;
+mod error;
+mod field;
+mod method;
+mod signature;
 
 /// Parses class file based on given options.
 pub fn to_class<R: Read>(class_bytes: &mut R, option: ParsingOption) -> ParseResult<Class> {
@@ -31,13 +31,21 @@ pub fn to_class<R: Read>(class_bytes: &mut R, option: ParsingOption) -> ParseRes
 /// Parsing options allows marking some parsing phase optional.
 #[derive(Debug, Default)]
 pub struct ParsingOption {
-    parse_attribute: bool,
+    skip_attribute: bool,
+    skip_instruction: bool,
 }
 
 impl ParsingOption {
-    /// Skips on attribute struct parsing.
-    pub fn parse_attribute(mut self) -> Self {
-        self.parse_attribute = true;
+    /// Skips on attribute parsing.
+    pub fn skip_attribute(mut self) -> Self {
+        self.skip_attribute = true;
+
+        self
+    }
+
+    /// Skips on instruction parsing on code attribute.
+    pub fn skip_instruction(mut self) -> Self {
+        self.skip_instruction = true;
 
         self
     }

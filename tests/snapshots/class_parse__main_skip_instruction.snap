@@ -1,6 +1,6 @@
 ---
 source: cfsp/tests/class_parse.rs
-expression: "to_class(&mut cursor, ParsingOption::default()).unwrap()"
+expression: "to_class(&mut cursor, ParsingOption::default().skip_instruction()).unwrap()"
 ---
 java_version: V17
 constant_pool_count: 60
@@ -582,11 +582,7 @@ methods:
               - 0
               - 1
               - 177
-            instructions:
-              - ALOAD_0
-              - INVOKESPECIAL:
-                  index: 1
-              - RETURN
+            instructions: []
             exception_table_length: 0
             exception_table: []
             attributes_length: 2
@@ -708,14 +704,7 @@ methods:
               - 0
               - 15
               - 177
-            instructions:
-              - GETSTATIC:
-                  index: 7
-              - LDC:
-                  index: 13
-              - INVOKEVIRTUAL:
-                  index: 15
-              - RETURN
+            instructions: []
             exception_table_length: 0
             exception_table: []
             attributes_length: 2
@@ -881,34 +870,7 @@ methods:
               - 0
               - 44
               - 177
-            instructions:
-              - NEW:
-                  index: 21
-              - DUP
-              - INVOKESPECIAL:
-                  index: 23
-              - PUTSTATIC:
-                  index: 24
-              - GETSTATIC:
-                  index: 30
-              - PUTSTATIC:
-                  index: 36
-              - NEW:
-                  index: 39
-              - DUP
-              - ICONST_1
-              - ICONST_1
-              - ICONST_1
-              - FCONST_1
-              - LCONST_1
-              - DCONST_1
-              - ICONST_1
-              - ACONST_NULL
-              - INVOKESPECIAL:
-                  index: 41
-              - PUTSTATIC:
-                  index: 44
-              - RETURN
+            instructions: []
             exception_table_length: 0
             exception_table: []
             attributes_length: 1

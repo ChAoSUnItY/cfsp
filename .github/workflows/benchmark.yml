@@ -1,0 +1,24 @@
+name: Benchmark CI
+
+jobs:
+  build:
+    if: contains( github.event.pull_request.labels.*.name, 'needs bench')
+    runs-on: ubuntu-latest
+    name: Build and Test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: Run benchmark
+        uses: boa-dev/criterion-compare-action@v3
+        with:
+          branchName: ${{ github.base_ref }}
+      - name: Remove `needs bench` label
+        uses: actions-ecosystem/action-remove-labels@v1
+        if: ${{ startsWith(github.event.comment.body, '/remove-labels') }}
+        with:
+          labels: needs bench
+      
+        
