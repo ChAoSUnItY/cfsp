@@ -17,7 +17,8 @@ jobs:
         uses: actions/checkout@v1
       - uses: actions-rs/toolchain@v1
         with:
-          toolchain: stable
+          toolchain: nightly
+          override: true
           components: rustfmt
       - name: Format check
         run: cargo fmt --check --all
@@ -39,6 +40,7 @@ jobs:
         uses: actions-rs/grcov@v0.1
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
+        if: github.ref == 'refs/heads/master'
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
           file: tests.lcov
