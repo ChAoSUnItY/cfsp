@@ -50,7 +50,7 @@ pub(super) fn attribute_info<'input: 'constant_pool, 'constant_pool, R: Read>(
 
     input.read_exact(&mut info)?;
 
-    let attribute = if option.parse_attribute {
+    let attribute = if option.skip_attribute {
         if let Some(Ok(attribute_name)) = constant_pool
             .get_utf8(attribute_name_index)
             .map(|utf8| utf8.string())

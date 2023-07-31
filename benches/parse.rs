@@ -23,7 +23,7 @@ fn parsing_classes(c: &mut Criterion) {
                 b.iter_batched(
                     || Cursor::new(bytes),
                     |mut cursor| {
-                        to_class(&mut cursor, ParsingOption::default().parse_attribute())
+                        to_class(&mut cursor, ParsingOption::default())
                             .expect("Parsing fails on benchmarking");
                     },
                     BatchSize::SmallInput,
@@ -38,7 +38,7 @@ fn parsing_classes(c: &mut Criterion) {
                 b.iter_batched(
                     || Cursor::new(bytes),
                     |mut cursor| {
-                        to_class(&mut cursor, ParsingOption::default())
+                        to_class(&mut cursor, ParsingOption::default().skip_attribute())
                             .expect("Parsing fails on benchmarking");
                     },
                     BatchSize::SmallInput,
