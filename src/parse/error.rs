@@ -24,6 +24,8 @@ pub enum ParseError {
     Remains(usize),
     #[error("expected {1:?} but got '{0}'")]
     MismatchedCharacter(char, Vec<char>),
+    #[error("attempt to parse identifier in signature but got empty identifier")]
+    EmptySignatureIdentifier,
     #[error("attempt to parse {0} but is incomplete")]
     OutOfBound(&'static str),
 }

@@ -8,6 +8,7 @@ use crate::node::signature::{
 use crate::parse::error::{ParseError, ParseResult};
 
 const EXCLUDED_IDENTIFIER_CHARACTERS: &'static str = ".;[/<>:";
+const BASE_TYPES: &'static str = "ZBSIJFD";
 
 pub fn class_signature(input: &str) -> ParseResult<Signature> {
     let mut input = input.chars().peekable();
@@ -181,13 +182,9 @@ fn base_type(input: &mut Peekable<Chars>) -> ParseResult<BaseType> {
         return Err(ParseError::OutOfBound("base type"));
     };
 
-    for base_type_char in "ZBSIJFD".chars() {
+    for base_type_char in BASE_TYPES.chars() {
         if *char == base_type_char {
-            let char = input.next().unwrap();
-
-            return BaseType::try_from(char).map_err(|_| {
-                ParseError::MismatchedCharacter(char, vec!['Z', 'B', 'S', 'I', 'J', 'F', 'D'])
-            });
+            return Ok(BaseType::try_from(input.next().unwrap()).unwrap());
         }
     }
 
@@ -214,7 +211,7 @@ fn reference_type(input: &mut Peekable<Chars>) -> ParseResult<ReferenceType> {
 }
 
 fn class_type_signature(input: &mut Peekable<Chars>) -> ParseResult<ClassType> {
-    assert_char(input.next(), 'L')?;
+    assert_char(input.next_if(|&char| char == 'L'), 'L')?;
 
     let (package_path, class_name) = package_specifier_and_class_type(input)?;
     let type_arguments = type_arguments(input)?;
@@ -353,7 +350,11 @@ fn identifier(input: &mut Peekable<Chars>) -> ParseResult<String> {
         }
     }
 
-    Ok(identifier_builder)
+    if identifier_builder.is_empty() {
+        Err(ParseError::EmptySignatureIdentifier)
+    } else {
+        Ok(identifier_builder)
+    }
 }
 
 #[inline]

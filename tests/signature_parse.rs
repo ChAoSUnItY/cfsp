@@ -53,16 +53,18 @@ fn test_class_signature() {
     .is_err());
     assert!(field_signature("Lclass.class").is_err());
     assert!(field_signature("R").is_err());
-    assert!(field_signature("").is_err());
+    assert!(field_signature("L").is_err());
     assert!(field_signature("Lclass/").is_err());
     assert!(field_signature("Lclass<*>;").is_ok());
     assert!(field_signature("Lclass<+Ljava/lang/Runnable;>;").is_ok());
     assert!(field_signature("Lclass<+>;").is_err());
+    assert!(field_signature("Lclass<").is_err());
     assert!(field_signature("Lclass<*>.inner<*>;").is_ok());
     assert!(method_signature("(Z[[ZTT;)V^",).is_err());
     assert!(method_signature("<>(Z[[ZTT;)V^Ljava/lang/Exception;").is_ok());
+    method_signature("<>(Z[[ZTT;)V^TT;").unwrap();
     assert!(method_signature("<>(Z[[ZTT;)V^TT;",).is_ok());
     assert!(method_signature("<>(Z[[ZTT;)",).is_err());
     assert!(method_signature("<>(Z[[ZTT;)V^",).is_err());
-    assert!(method_signature("<>(Z[[ZTT;)V^",).is_err());
+    assert!(method_signature("<>(Z[[ZTT;)V^TT;TT;",).is_err());
 }
