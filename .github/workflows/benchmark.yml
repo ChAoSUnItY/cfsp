@@ -2,7 +2,7 @@ name: Benchmark CI
 
 on:
   pull_request:
-    types: [ labeled ]
+    types: [ synchronize, labeled ]
 
 jobs:
   build:
