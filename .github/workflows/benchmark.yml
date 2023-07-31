@@ -1,9 +1,5 @@
 name: Benchmark CI
 
-on:
-  pull_request:
-    types: [ synchronize, labeled ]
-
 jobs:
   build:
     if: contains( github.event.pull_request.labels.*.name, 'needs bench')
