@@ -1,5 +1,7 @@
 # ClassFile Structural Parser (CFSP)
 
+![crates.io](https://img.shields.io/crates/v/cfsp.svg)
+
 A general usage parser used to parse class file into structural nodes.
 
 This class file parser implementation is support up to Java SE 20 based on 

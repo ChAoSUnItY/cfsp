@@ -1,11 +1,11 @@
 [package]
 name = "cfsp"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2021"
 authors = ["ChAoS-UnItY"]
 description = "A JVM Bytecode Manipulation Framework inspired by ASM."
 license = "MIT"
-repository = "https://github.com/ChAoSUnItY/Ka-Pi/cfsp"
+repository = "https://github.com/ChAoSUnItY/cfsp"
 readme = "README.md"
 keywords = ["jvm", "jvm-bytecode", "bytecode"]
 
