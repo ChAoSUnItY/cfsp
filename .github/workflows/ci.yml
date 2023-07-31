@@ -33,9 +33,9 @@ jobs:
         run: |
           cd compiled_source
           rm out/production/compiled_source/*
-          for file in src
+          for file in /src/*.java
           do
-          javac -d out/production/compiled_source/ "$file"
+            javac -d out/production/compiled_source/ "$file"
           done
       - name: Setup cargo-tarpaulin
         run: |
